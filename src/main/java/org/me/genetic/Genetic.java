@@ -1,5 +1,7 @@
 package org.me.genetic;
 
+import org.me.genetic.vo.Wolf;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Comparator;
@@ -11,6 +13,8 @@ public class Genetic extends JPanel{
 
     public static final int goalX = 100;
     public static final int goalY = 900;
+    public static final int width = 1000;
+    public static final int height = 1000;
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -30,7 +34,7 @@ public class Genetic extends JPanel{
     public void magic() {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 1000);
+        frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
 
         Genetic panel = new Genetic();

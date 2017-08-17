@@ -1,4 +1,7 @@
-package org.me.genetic;
+package org.me.genetic.vo;
+
+import org.me.genetic.Genetic;
+import org.me.genetic.GeneticUtils;
 
 import java.awt.*;
 import java.util.Collections;
@@ -37,7 +40,7 @@ public class Wolf {
 
     private void calculateScore() {
         Line lastLine = lines.stream().reduce((a,b)->b).orElseGet(()->Line.zeroLine());
-        this.score = GeneticUtils.calculateHypotenuse(lastLine.getX2()-Genetic.goalX,lastLine.getY2()-Genetic.goalY);
+        this.score = GeneticUtils.calculateHypotenuse(lastLine.x2()- Genetic.goalX,lastLine.y2()-Genetic.goalY);
     }
 
     public void drawLines(Graphics g){
@@ -57,4 +60,5 @@ public class Wolf {
     public int getScore() {
         return score;
     }
+
 }
