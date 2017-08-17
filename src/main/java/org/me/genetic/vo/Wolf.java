@@ -10,7 +10,7 @@ import java.util.List;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.BLUE;
 
-public class Wolf implements Cloneable{
+public class Wolf {
 
     private List<Line> lines;
     private Color color;
@@ -69,15 +69,6 @@ public class Wolf implements Cloneable{
 
     public void color(Color color){
         this.color = color;
-    }
-
-    @Override
-    public Wolf clone(){
-        try {
-            return (Wolf)super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
     }
 
     private void calculateScore(Sheep sheep) {

@@ -31,9 +31,10 @@ public class Mutator {
                                 random.nextInt(4)+6)
                         .map(genomeIndex-> {
                             //TODO here is the bug, the reference for the list is cloned, but not changed
-                            Wolf newWolf = Optional
-                                    .ofNullable(wolf.clone())
-                                    .orElseGet(() -> Wolf.zeroWolf());
+                            Wolf newWolf = Wolf.createWolf(wolf.getLines().stream().collect(Collectors.toList()),new Color(
+                                    random.nextInt(255),
+                                    random.nextInt(255),
+                                    random.nextInt(255)));
 
                             newWolf.getLines()
                                     .set(genomeIndex, Line.createLine(0,0,random.nextFloat()*2*Math.PI));
