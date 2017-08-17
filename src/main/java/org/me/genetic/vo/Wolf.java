@@ -1,5 +1,6 @@
 package org.me.genetic.vo;
 
+import org.me.genetic.Genetic;
 import org.me.genetic.tools.GeneticUtils;
 
 import java.awt.*;
@@ -44,9 +45,13 @@ public class Wolf implements Cloneable{
     }
 
     public void recalculateLines(){
+        lines.get(0).x1(Genetic.width/2);
+        lines.get(0).y1(Genetic.height/2);
+        lines.get(0).recalculateLine();
+
         for(int i = 1; i<10; i++){
             lines
-                    .set(i,Line.createLine(lines.get(i-1).x2(),lines.get(i-1).y2(),lines.get(i).angle()));
+                .set(i,Line.createLine(lines.get(i-1).x2(),lines.get(i-1).y2(),lines.get(i).angle()));
         }
     }
 

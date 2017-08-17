@@ -46,9 +46,17 @@ public class Line {
         return start.x();
     }
 
+    public void x1(int x){
+        this.start.x(x);
+    }
+
     public int y1() {
 
         return start.y();
+    }
+
+    public void y1(int y){
+        this.start.y(y);
     }
 
     public int x2() {

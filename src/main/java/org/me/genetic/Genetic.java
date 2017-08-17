@@ -2,6 +2,7 @@ package org.me.genetic;
 
 import org.me.genetic.tools.Mutator;
 import org.me.genetic.tools.WolfGenerator;
+import org.me.genetic.vo.Line;
 import org.me.genetic.vo.Point;
 import org.me.genetic.vo.Sheep;
 import org.me.genetic.vo.Wolf;
@@ -17,11 +18,15 @@ import static java.awt.Color.*;
 
 public class Genetic extends JPanel{
 
-    public static final int goalX = 100;
-    public static final int goalY = 900;
     public static final int width = 1000;
     public static final int height = 1000;
-    public static final int firstGenerationSize = 10;
+
+    private static final int goalX = 100;
+    private static final int goalY = 900;
+    private static final int firstGenerationSize = 10;
+
+    private List<Line> pastGenerationsLines = new ArrayList<>();
+
     @Override
     protected void paintComponent(Graphics g) {
         Sheep sheep = Sheep.createSheep(Point.createPoint(goalX,goalY));
@@ -35,11 +40,9 @@ public class Genetic extends JPanel{
                 .sorted(Comparator.comparing(Wolf::getScore))
                 .collect(Collectors.toList());
 
-        g.setColor(GRAY);
-        wolfs
-                .stream()
-                .flatMap(wolf -> wolf.getLines().stream())
-                .forEach(line -> line.draw(g));
+        drawPastGenerations(g);
+        archiveGeneration(wolfs);
+        drawPastGenerations(g); //TODO delete
 
         List<Wolf> winners = new ArrayList<>();
         int winnersCount = firstGenerationSize/10 > 1 ? firstGenerationSize/10 : 1;
@@ -50,7 +53,6 @@ public class Genetic extends JPanel{
         winners
                 .stream()
                 .flatMap(Mutator::mutateWolf)
-//                .map(Wolf::getColor)
                 .forEach(wolf -> wolf.drawLines(g));
 
         winners
@@ -58,6 +60,25 @@ public class Genetic extends JPanel{
                 .map(wolf->wolf.getColor())
                 .forEach(color->System.out.println("winner: "+color));
 
+    }
+
+    private void drawPastGenerations(Graphics g) {
+        g.setColor(GRAY);
+        pastGenerationsLines
+                .stream()
+                .forEach(line -> line.draw(g));
+    }
+
+    private void archiveGeneration(List<Wolf> wolfs) {
+        pastGenerationsLines
+                .addAll(
+                        wolfs
+                                .stream()
+                                .flatMap(wolf->
+                                        wolf
+                                                .getLines()
+                                                .stream())
+                                .collect(Collectors.toList()));
     }
 
     public void magic() {
