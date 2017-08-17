@@ -1,12 +1,12 @@
 package org.me.genetic.tools;
 
+import org.me.genetic.Genetic;
 import org.me.genetic.vo.Line;
 import org.me.genetic.vo.Wolf;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,12 +23,11 @@ public class Mutator {
                 .collect(Collectors.joining(" | ")));
         System.out.println("----------------------------------------------------");
 
-        for(int i =0; i< 4; i++){
+        for(int i = 0; i< Genetic.firstGenerationSize/2; i++){
                 newGeneration.addAll(Stream
                         .of(
-                                random.nextInt(3),
-                                random.nextInt(3)+3,
-                                random.nextInt(4)+6)
+                                random.nextInt(5),
+                                random.nextInt(5)+5)
                         .map(genomeIndex-> {
                             //TODO here is the bug, the reference for the list is cloned, but not changed
                             Wolf newWolf = Wolf.createWolf(wolf.getLines().stream().collect(Collectors.toList()),new Color(

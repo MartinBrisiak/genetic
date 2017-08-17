@@ -20,29 +20,43 @@ public class Genetic extends JPanel{
 
     public static final int width = 1000;
     public static final int height = 1000;
+    public static final int firstGenerationSize = 10;
 
     private static final int goalX = 100;
     private static final int goalY = 900;
-    private static final int firstGenerationSize = 10;
 
     private List<Line> pastGenerationsLines = new ArrayList<>();
+    private Sheep sheep = Sheep.createSheep(Point.createPoint(goalX,goalY));
+    private List<Wolf> wolfs = null;
+
+    public void magic() {
+
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(width, height);
+        frame.setLocationRelativeTo(null);
+
+        Genetic panel = new Genetic();
+
+        panel.setBackground(WHITE);
+        frame.setContentPane(panel);
+        frame.setVisible(true);
+
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
-        Sheep sheep = Sheep.createSheep(Point.createPoint(goalX,goalY));
         super.paintComponent(g);
+
+        if(wolfs == null){
+            wolfs = createFirstGeneration(g);
+        }
+
         g.setColor(RED);
         g.fillOval(sheep.x(),sheep.y(),20,20);
 
-        List<Wolf> wolfs = WolfGenerator
-                .generateWolfs(firstGenerationSize)
-                .peek(wolf-> wolf.hunt(g,sheep))
-                .sorted(Comparator.comparing(Wolf::getScore))
-                .collect(Collectors.toList());
-
         drawPastGenerations(g);
         archiveGeneration(wolfs);
-        drawPastGenerations(g); //TODO delete
 
         List<Wolf> winners = new ArrayList<>();
         int winnersCount = firstGenerationSize/10 > 1 ? firstGenerationSize/10 : 1;
@@ -53,13 +67,33 @@ public class Genetic extends JPanel{
         winners
                 .stream()
                 .flatMap(Mutator::mutateWolf)
-                .forEach(wolf -> wolf.drawLines(g));
+                .forEach(wolf -> {
+                    wolf.drawLines(g);
+                });
 
         winners
                 .stream()
                 .map(wolf->wolf.getColor())
                 .forEach(color->System.out.println("winner: "+color));
 
+        wolfs = winners;
+
+        try {
+            Thread.currentThread().sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+        }
+
+        repaint();
+    }
+
+    private List<Wolf> createFirstGeneration(Graphics g) {
+        return WolfGenerator
+                    .generateWolfs(firstGenerationSize)
+                    .peek(wolf-> wolf.hunt(g,sheep))
+                    .sorted(Comparator.comparing(Wolf::getScore))
+                    .collect(Collectors.toList());
     }
 
     private void drawPastGenerations(Graphics g) {
@@ -72,27 +106,13 @@ public class Genetic extends JPanel{
     private void archiveGeneration(List<Wolf> wolfs) {
         pastGenerationsLines
                 .addAll(
-                        wolfs
-                                .stream()
-                                .flatMap(wolf->
-                                        wolf
-                                                .getLines()
-                                                .stream())
-                                .collect(Collectors.toList()));
-    }
-
-    public void magic() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-
-        Genetic panel = new Genetic();
-        panel.setBackground(WHITE);
-        frame.setContentPane(panel);
-        frame.setVisible(true);
-
-        frame.invalidate();
+                    wolfs
+                        .stream()
+                        .flatMap(wolf->
+                                wolf
+                                    .getLines()
+                                    .stream())
+                        .collect(Collectors.toList()));
     }
 
 }
