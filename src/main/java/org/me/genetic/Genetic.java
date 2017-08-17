@@ -20,7 +20,7 @@ public class Genetic extends JPanel{
 
     public static final int width = 1000;
     public static final int height = 1000;
-    public static final int firstGenerationSize = 10;
+    public static final int firstGenerationSize = 100;
 
     private static final int goalX = 100;
     private static final int goalY = 900;
@@ -64,19 +64,20 @@ public class Genetic extends JPanel{
             winners.add(wolfs.get(i));
         }
 
-        winners
+        List<Wolf> newGeneration = winners
                 .stream()
                 .flatMap(Mutator::mutateWolf)
-                .forEach(wolf -> {
+                .peek(wolf -> {
                     wolf.drawLines(g);
-                });
+                })
+                .collect(Collectors.toList());
 
-        winners
-                .stream()
-                .map(wolf->wolf.getColor())
-                .forEach(color->System.out.println("winner: "+color));
+//        winners
+//                .stream()
+//                .map(wolf->wolf.getColor())
+//                .forEach(color->System.out.println("winner: "+color));
 
-        wolfs = winners;
+        wolfs = newGeneration;
 
         try {
             Thread.currentThread().sleep(1000);

@@ -17,11 +17,11 @@ public class Mutator {
         Random random = new Random();
         List<Wolf> newGeneration = new ArrayList<>();
 
-        System.out.println(wolf.getLines()
-                .stream()
-                .map(line->String.format("%d %d %d %d ",line.x1(),line.y1(),line.x2(),line.y2()))
-                .collect(Collectors.joining(" | ")));
-        System.out.println("----------------------------------------------------");
+//        System.out.println(wolf.getLines()
+//                .stream()
+//                .map(line->String.format("%d %d %d %d ",line.x1(),line.y1(),line.x2(),line.y2()))
+//                .collect(Collectors.joining(" | ")));
+//        System.out.println("----------------------------------------------------");
 
         for(int i = 0; i< Genetic.firstGenerationSize/2; i++){
                 newGeneration.addAll(Stream
@@ -49,15 +49,15 @@ public class Mutator {
                         .collect(Collectors.toList()));
         }
 
-        newGeneration
-                .stream()
-                .map(x->
-                        x
-                        .getLines()
-                        .stream()
-                        .map(line->String.format("%d %d %d %d ",line.x1(),line.y1(),line.x2(),line.y2()))
-                        .collect(Collectors.joining(" | ")))
-                .forEach(System.out::println);
+//        newGeneration
+//                .stream()
+//                .map(x->
+//                        x
+//                        .getLines()
+//                        .stream()
+//                        .map(line->String.format("%d %d %d %d ",line.x1(),line.y1(),line.x2(),line.y2()))
+//                        .collect(Collectors.joining(" | ")))
+//                .forEach(System.out::println);
 
         return newGeneration.stream();
     }

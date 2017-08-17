@@ -32,7 +32,7 @@ public class Line {
     }
 
     public void draw(Graphics graphics){
-        ((Graphics2D)graphics).setStroke(new BasicStroke(3));
+        ((Graphics2D)graphics).setStroke(new BasicStroke(2));
         graphics.drawLine(start.x(),start.y(),end.x(),end.y());
     }
 
