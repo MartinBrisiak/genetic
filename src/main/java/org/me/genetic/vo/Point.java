@@ -22,7 +22,15 @@ public class Point {
         return x;
     }
 
+    public void x(int x){
+        this.x=x;
+    }
+
     public int y() {
         return y;
+    }
+
+    public void y(int y) {
+        this.y = y;
     }
 }

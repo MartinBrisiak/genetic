@@ -35,9 +35,16 @@ public class Line {
         return end.x();
     }
 
+    public void x2(int x){
+        this.end.x(x);
+    }
+
     public int y2() {
         return end.y();
+    }
 
+    public void y2(int y ){
+        this.end.y(y);
     }
 
     public void draw(Graphics graphics){

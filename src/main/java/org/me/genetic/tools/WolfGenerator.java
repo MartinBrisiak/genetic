@@ -1,5 +1,7 @@
-package org.me.genetic;
+package org.me.genetic.tools;
 
+import org.me.genetic.Genetic;
+import org.me.genetic.tools.GeneticUtils;
 import org.me.genetic.vo.Line;
 import org.me.genetic.vo.Wolf;
 
@@ -11,8 +13,9 @@ import java.util.stream.Stream;
 
 public class WolfGenerator {
 
+    public static final int lineLength = 50;
+
     private static final int linesCont = 10;
-    private static final int lineLength = 50;
     private static final int colorMaximum = 255;
     private static final int startingX = 0;
     private static final int startingY = 0;

@@ -1,13 +1,19 @@
 package org.me.genetic;
 
+import org.me.genetic.tools.Mutator;
+import org.me.genetic.tools.WolfGenerator;
+import org.me.genetic.vo.Point;
+import org.me.genetic.vo.Sheep;
 import org.me.genetic.vo.Wolf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.List;
 
-import static java.awt.Color.RED;
-import static java.awt.Color.WHITE;
+import static java.awt.Color.*;
 
 public class Genetic extends JPanel{
 
@@ -18,16 +24,37 @@ public class Genetic extends JPanel{
 
     @Override
     protected void paintComponent(Graphics g) {
+        Sheep sheep = Sheep.createSheep(Point.createPoint(goalX,goalY));
         super.paintComponent(g);
         g.setColor(RED);
-        g.fillOval(goalX,goalY,20,20);
-        System.out.println("winner color "+ WolfGenerator
-                .generateWolfs(10)
-                .peek(wolf-> wolf.hunt(g))
+        g.fillOval(sheep.x(),sheep.y(),20,20);
+
+        List<Wolf> wolfs = WolfGenerator
+                .generateWolfs(100)
+                .peek(wolf-> wolf.hunt(g,sheep))
                 .sorted(Comparator.comparing(Wolf::getScore))
-                .findFirst()
-                .orElseGet(()->Wolf.zeroWolf())
-                .getColor());
+                .collect(Collectors.toList());
+
+        List<Wolf> winners = new ArrayList<>();
+        for(int i = 0; i < 10; i++){
+            winners.add(wolfs.get(i));
+        }
+
+        winners
+                .stream()
+                .flatMap(Mutator::mutateWolf)
+                .map(Wolf::getColor)
+                .forEach(System.out::println);
+
+        winners
+                .stream()
+                .map(wolf->wolf.getColor())
+                .forEach(color->System.out.println("winner: "+color));
+//        g.setColor(GRAY);
+//        wolfs
+//            .stream()
+//            .flatMap(wolf -> wolf.getLines().stream())
+//            .forEach(line -> line.draw(g));
 
     }
 

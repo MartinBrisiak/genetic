@@ -1,7 +1,6 @@
 package org.me.genetic.vo;
 
-import org.me.genetic.Genetic;
-import org.me.genetic.GeneticUtils;
+import org.me.genetic.tools.GeneticUtils;
 
 import java.awt.*;
 import java.util.Collections;
@@ -10,7 +9,7 @@ import java.util.List;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.BLUE;
 
-public class Wolf {
+public class Wolf implements Cloneable{
 
     private List<Line> lines;
     private Color color;
@@ -33,14 +32,14 @@ public class Wolf {
         return Wolf.createWolf(Collections.singletonList(Line.zeroLine()),BLACK);
     }
 
-    public void hunt(Graphics g){
+    public void hunt(Graphics g, Sheep sheep){
         drawLines(g);
-        calculateScore();
+        calculateScore(sheep);
     }
 
-    private void calculateScore() {
+    private void calculateScore(Sheep sheep) {
         Line lastLine = lines.stream().reduce((a,b)->b).orElseGet(()->Line.zeroLine());
-        this.score = GeneticUtils.calculateHypotenuse(lastLine.x2()- Genetic.goalX,lastLine.y2()-Genetic.goalY);
+        this.score = GeneticUtils.calculateHypotenuse(lastLine.x2()- sheep.x(),lastLine.y2()-sheep.y());
     }
 
     public void drawLines(Graphics g){
@@ -61,4 +60,16 @@ public class Wolf {
         return score;
     }
 
+    public void color(Color color){
+        this.color = color;
+    }
+
+    @Override
+    public Wolf clone(){
+        try {
+            return (Wolf)super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 }

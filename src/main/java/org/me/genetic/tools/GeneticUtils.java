@@ -1,4 +1,4 @@
-package org.me.genetic;
+package org.me.genetic.tools;
 
 public class GeneticUtils {
 
