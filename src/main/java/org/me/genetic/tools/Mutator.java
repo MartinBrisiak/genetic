@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 
 public class Mutator {
 
-    //cele zle
     public static Stream<Wolf> mutateWolf(Wolf wolf){
         Random random = new Random();
         List<Wolf> newGeneration = new ArrayList<>();

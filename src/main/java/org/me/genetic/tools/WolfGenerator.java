@@ -17,8 +17,6 @@ public class WolfGenerator {
 
     private static final int linesCont = 10;
     private static final int colorMaximum = 255;
-    private static final int startingX = 0;
-    private static final int startingY = 0;
 
     public static Stream<Wolf> generateWolfs(int count) {
         List<Wolf> wolfs = new ArrayList<>();
@@ -31,38 +29,31 @@ public class WolfGenerator {
 
     public static Wolf generateWolf(){
         Random random = new Random();
-
-        int widthModifier = random.nextBoolean() ? 1 : -1;
-        int heightModifier = random.nextBoolean() ? 1 : -1;
-        int firstInitialValue = random.nextInt(lineLength) * widthModifier + Genetic.width/2;
+        double randomAngle = random.nextFloat() * 2 * Math.PI;
 
         Line firstLine = Line.createLine(
-                            startingX + Genetic.width/2,
-                            startingY + Genetic.height/2,
-                            firstInitialValue,
-                            GeneticUtils.calculateSecondSide(firstInitialValue - Genetic.width/2,lineLength) * heightModifier +Genetic.height/2);
+                            Genetic.width/2,
+                            Genetic.height/2,
+                            randomAngle);
 
         List<Line> lines = new ArrayList<>();
         lines.add(firstLine);
 
         for(int i=0; i < linesCont-1; i++){
-            widthModifier = random.nextBoolean() ? 1 : -1;
-            heightModifier = random.nextBoolean() ? 1 : -1;
+            randomAngle = random.nextFloat() * 2 * Math.PI;
 
             Line lastLine = lines
                                 .stream()
                                 .reduce((a,b)->b)
-                                .orElseGet(()->Line.createLine(0,0,0,0));
+                                .orElseGet(()->Line.zeroLine());
 
-            int firstValue = random.nextInt(lineLength);
             lines.add(Line.createLine(
                             lastLine.x2(),
                             lastLine.y2(),
-                            lastLine.x2() + firstValue * widthModifier,
-                            lastLine.y2() + GeneticUtils.calculateSecondSide(firstValue,lineLength)*heightModifier));
+                            randomAngle));
         }
 
-        debugCount(lines.stream());
+//        debugCount(lines.stream());
 
         return Wolf.createWolf(lines, new Color(
                                                     random.nextInt(colorMaximum),

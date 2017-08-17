@@ -1,24 +1,39 @@
 package org.me.genetic.vo;
 
+import org.me.genetic.tools.WolfGenerator;
+
 import java.awt.*;
 
 public class Line {
 
-    private final Point start;
-    private final Point end;
+    private Point start;
+    private Point end;
+    private double angle = .0f;
 
-    private Line(Point start, Point end) {
-        this.start=start;
-        this.end=end;
+    private Line(Point start) {
+        new Line(start, .0f);
     }
 
-    public static Line createLine(int x1, int y1, int x2, int y2){
+    private Line(Point start, double angle) {
+        this.start=start;
+        this.angle = angle;
+        end = Point.createPoint();
+        recalculateLine();
+    }
 
-        return new Line(Point.createPoint(x1,y1),Point.createPoint(x2,y2));
+    public void recalculateLine(){
+        end.x((int)(start.x()+Math.cos(angle)* WolfGenerator.lineLength));
+        end.y((int)(start.y()+Math.sin(angle)* WolfGenerator.lineLength));
+    }
+
+    public static Line createLine(int x1, int y1, double angle){
+
+        return new Line(Point.createPoint(x1,y1),angle);
     }
 
     public static Line zeroLine(){
-        return new Line(Point.createPoint(),Point.createPoint());
+
+        return new Line(Point.createPoint());
     }
 
     public int x1() {
