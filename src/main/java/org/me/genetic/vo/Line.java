@@ -21,14 +21,19 @@ public class Line {
         recalculateLine();
     }
 
+    public static Line createLine(int x1, int y1, double angle){
+
+        return new Line(Point.createPoint(x1,y1),angle);
+    }
+
     public void recalculateLine(){
         end.x((int)(start.x()+Math.cos(angle)* WolfGenerator.lineLength));
         end.y((int)(start.y()+Math.sin(angle)* WolfGenerator.lineLength));
     }
 
-    public static Line createLine(int x1, int y1, double angle){
-
-        return new Line(Point.createPoint(x1,y1),angle);
+    public void draw(Graphics graphics){
+        ((Graphics2D)graphics).setStroke(new BasicStroke(3));
+        graphics.drawLine(start.x(),start.y(),end.x(),end.y());
     }
 
     public static Line zeroLine(){
@@ -62,8 +67,8 @@ public class Line {
         this.end.y(y);
     }
 
-    public void draw(Graphics graphics){
-        ((Graphics2D)graphics).setStroke(new BasicStroke(3));
-        graphics.drawLine(start.x(),start.y(),end.x(),end.y());
+    public double angle(){
+        return angle;
     }
+
 }

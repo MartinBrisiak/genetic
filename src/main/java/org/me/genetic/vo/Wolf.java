@@ -37,15 +37,17 @@ public class Wolf implements Cloneable{
         calculateScore(sheep);
     }
 
-    private void calculateScore(Sheep sheep) {
-        Line lastLine = lines.stream().reduce((a,b)->b).orElseGet(()->Line.zeroLine());
-        this.score = GeneticUtils.calculateHypotenuse(lastLine.x2()- sheep.x(),lastLine.y2()-sheep.y());
-    }
-
     public void drawLines(Graphics g){
         g.setColor(color);
         lines
             .forEach(line -> line.draw(g));
+    }
+
+    public void recalculateLines(){
+        for(int i = 1; i<10; i++){
+            lines
+                    .set(i,Line.createLine(lines.get(i-1).x2(),lines.get(i-1).y2(),lines.get(i).angle()));
+        }
     }
 
     public List<Line> getLines(){
@@ -72,4 +74,10 @@ public class Wolf implements Cloneable{
             return null;
         }
     }
+
+    private void calculateScore(Sheep sheep) {
+        Line lastLine = lines.stream().reduce((a,b)->b).orElseGet(()->Line.zeroLine());
+        this.score = GeneticUtils.calculateHypotenuse(lastLine.x2()- sheep.x(),lastLine.y2()-sheep.y());
+    }
+
 }

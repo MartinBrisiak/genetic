@@ -21,7 +21,7 @@ public class Genetic extends JPanel{
     public static final int goalY = 900;
     public static final int width = 1000;
     public static final int height = 1000;
-    public static final int firstGenerationSize = 3;
+    public static final int firstGenerationSize = 10;
     @Override
     protected void paintComponent(Graphics g) {
         Sheep sheep = Sheep.createSheep(Point.createPoint(goalX,goalY));
@@ -35,27 +35,28 @@ public class Genetic extends JPanel{
                 .sorted(Comparator.comparing(Wolf::getScore))
                 .collect(Collectors.toList());
 
+        g.setColor(GRAY);
+        wolfs
+                .stream()
+                .flatMap(wolf -> wolf.getLines().stream())
+                .forEach(line -> line.draw(g));
+
         List<Wolf> winners = new ArrayList<>();
         int winnersCount = firstGenerationSize/10 > 1 ? firstGenerationSize/10 : 1;
         for(int i = 0; i < winnersCount; i++){
             winners.add(wolfs.get(i));
         }
 
-//        winners
-//                .stream()
-//                .flatMap(Mutator::mutateWolf)
+        winners
+                .stream()
+                .flatMap(Mutator::mutateWolf)
 //                .map(Wolf::getColor)
-//                .forEach(System.out::println);
+                .forEach(wolf -> wolf.drawLines(g));
 
         winners
                 .stream()
                 .map(wolf->wolf.getColor())
                 .forEach(color->System.out.println("winner: "+color));
-//        g.setColor(GRAY);
-//        wolfs
-//            .stream()
-//            .flatMap(wolf -> wolf.getLines().stream())
-//            .forEach(line -> line.draw(g));
 
     }
 

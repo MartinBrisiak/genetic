@@ -36,6 +36,8 @@ public class Mutator {
                                     random.nextInt(255),
                                     random.nextInt(255)));
 
+                            newWolf.recalculateLines();
+
                             return newWolf;})
                         .collect(Collectors.toList()));
         }
