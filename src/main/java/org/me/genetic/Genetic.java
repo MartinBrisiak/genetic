@@ -9,10 +9,11 @@ import org.me.genetic.vo.Wolf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.stream.Collectors;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static java.awt.Color.*;
 
@@ -29,33 +30,18 @@ public class Genetic extends JPanel{
     private Sheep sheep = Sheep.createSheep(Point.createPoint(goalX,goalY));
     private List<Wolf> wolfs = null;
 
-    public void magic() {
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, height);
-        frame.setLocationRelativeTo(null);
-
-        Genetic panel = new Genetic();
-
-        panel.setBackground(WHITE);
-        frame.setContentPane(panel);
-        frame.setVisible(true);
-
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        g.setColor(RED);
+        g.fillOval(sheep.x(),sheep.y(),20,20);
 
         if(wolfs == null){
             wolfs = createFirstGeneration(g);
         }
 
-        g.setColor(RED);
-        g.fillOval(sheep.x(),sheep.y(),20,20);
-
-        drawPastGenerations(g);
+//        drawPastGenerations(g);
         archiveGeneration(wolfs);
 
         List<Wolf> winners = new ArrayList<>();
@@ -63,6 +49,15 @@ public class Genetic extends JPanel{
         for(int i = 0; i < winnersCount; i++){
             winners.add(wolfs.get(i));
         }
+
+        //TODO spliting into two groups
+        //.map(wolf->new AbstractMap.SimpleEntry<Wolf,Wolf>(wolf,wolf));
+//        Stream<Wolf> firsHalf = winners.stream().limit(winners.size() / 2);
+//        Iterable<Wolf> secondHalfIterable = () -> winners
+//                .stream()
+//                .collect(Collectors.toCollection(LinkedList::new))
+//                .descendingIterator();
+//        Stream.StreamSupport.stream(secondHalfIterable.spliterator(),false).limit(winners.size()/2);
 
         List<Wolf> newGeneration = winners
                 .stream()
@@ -79,14 +74,14 @@ public class Genetic extends JPanel{
 
         wolfs = newGeneration;
 
-        try {
-            Thread.currentThread().sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.currentThread().sleep(1000);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//            e.printStackTrace();
+//        }
 
-        repaint();
+//        repaint();
     }
 
     private List<Wolf> createFirstGeneration(Graphics g) {
