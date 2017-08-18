@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class WolfGenerator {
 
-    public static final int lineLength = 50;
+    public static final int lineLength = 60;
 
     private static final int linesCont = 10;
     private static final int colorMaximum = 255;
