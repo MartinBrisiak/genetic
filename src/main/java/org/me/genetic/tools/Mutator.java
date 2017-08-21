@@ -24,7 +24,7 @@ public class Mutator {
             int endGenomeIndex= random.nextInt(6)+4;
 
             Wolf newWolf = Wolf.createWolf(
-                    wolf.getLines(), GeneticUtils.randomColor());
+                    new ArrayList<>(wolf.getLines()), GeneticUtils.randomColor());
 
             newWolf.getLines()
                     .set(startGenomeIndex, Line.createLine(0,0,random.nextFloat()*2*Math.PI));
@@ -35,7 +35,6 @@ public class Mutator {
 
             newWolf.recalculateLines();
 
-
             System.out.println(newWolf
                 .getLines()
                 .stream()
@@ -45,6 +44,15 @@ public class Mutator {
             newGeneration.add(newWolf);
         }
 
+        System.out.println("---------------------");
+        newGeneration.stream().forEach(newWolf->{
+            System.out.println(newWolf
+                    .getLines()
+                    .stream()
+                    .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
+                    .collect(Collectors.joining(" | ")));
+        });
+        System.out.println("+++++++++++++++++++");
         return newGeneration.stream();
     }
 

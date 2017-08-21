@@ -75,37 +75,15 @@ public class Genetic extends JPanel{
                 .stream()
                 .flatMap(pair -> Crossoverer.cross(pair.getKey(),pair.getValue()).stream())
                 .flatMap(Mutator::mutateWolf)
-                .peek(wolf->{
-                    System.out.println(wolf
-                            .getLines()
-                            .stream()
-                            .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
-                            .collect(Collectors.joining(" | ")));
-                })
                 .collect(Collectors.toList());
-//        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-//        newGeneration.stream().forEach(wolf->{
-//            System.out.println(wolf
-//                    .getLines()
-//                    .stream()
-//                    .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
-//                    .collect(Collectors.joining(" | ")));
-//
-//        });
 
         wolfs = newGeneration;
         wolfs.addAll(winners);
 
         wolfs.stream().forEach(wolf->{
-//            System.out.println(wolf
-//                .getLines()
-//                .stream()
-//                .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
-//                .collect(Collectors.joining(" | ")));
-
             wolf.drawLines(g);
         });
-//        System.out.println();
+
         System.out.println("new generation Size: "+wolfs.size());
 //        System.out.print("Winners: ");
 //        printing winners
@@ -114,12 +92,12 @@ public class Genetic extends JPanel{
 //                .map(wolf->wolf.getColor())
 //                .forEach(color->System.out.print(String.format("%d, %d, %d | ",color.getRed(),color.getGreen(),color.getBlue())));
 
-        try {
-            Thread.currentThread().sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.currentThread().sleep(1000);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//            e.printStackTrace();
+//        }
 
     }
 
