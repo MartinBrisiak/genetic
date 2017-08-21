@@ -3,7 +3,6 @@ package org.me.genetic;
 import com.google.common.collect.Lists;
 import com.google.common.math.IntMath;
 import org.me.genetic.tools.Crossoverer;
-import org.me.genetic.tools.GeneticUtils;
 import org.me.genetic.tools.Mutator;
 import org.me.genetic.tools.WolfGenerator;
 import org.me.genetic.vo.Line;
@@ -17,10 +16,9 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
-import static java.awt.Color.*;
+import static java.awt.Color.GRAY;
+import static java.awt.Color.RED;
 
 public class Genetic extends JPanel{
 
@@ -46,7 +44,7 @@ public class Genetic extends JPanel{
             wolfs = createFirstGeneration(g);
         }
 
-//        drawPastGenerations(g);
+        drawPastGenerations(g);
         archiveGeneration(wolfs);
 
         System.out.println("scores: ");
@@ -56,14 +54,10 @@ public class Genetic extends JPanel{
                 .sorted(Comparator.comparing(Wolf::getScore))
                 .peek(wolf->System.out.print(wolf.getScore()+" "))
                 .limit(winnersCount)
-//                .peek(wolf-> System.out.print(wolf.getScore()+ ", "))
                 .collect(Collectors.toList());
-//                .subList(0,winnersCount);
 
         int partitionSize = IntMath.divide(winners.size(), 2, RoundingMode.UP);
         List<List<Wolf>> partitions = Lists.partition(winners, partitionSize);
-
-//        System.out.println();
 
         List<Map.Entry<Wolf,Wolf>> groupedWinners = new ArrayList<>();
         for(int i=0; i< partitions.get(0).size(); i++){
@@ -88,25 +82,12 @@ public class Genetic extends JPanel{
             wolf.drawLines(g);
         });
 
-//        System.out.println("new generation Size: "+wolfs.size());
-        System.out.print("Winners: ");
-
-//        printing winners
-        winners
-                .stream()
-//                .map(wolf->wolf.getColor())
-                .forEach(wolf->System.out.print(String.format("F:%d R:%d, G:%d, B:%d | ",
-                                                                        wolf.getScore(),
-                                                                        wolf.getColor().getRed(),
-                                                                        wolf.getColor().getGreen(),
-                                                                        wolf.getColor().getBlue())));
-
-        try {
-            Thread.currentThread().sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.currentThread().sleep(1000);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//            e.printStackTrace();
+//        }
 
     }
 
