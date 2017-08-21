@@ -35,24 +35,23 @@ public class Mutator {
 
             newWolf.recalculateLines();
 
-            System.out.println(newWolf
-                .getLines()
-                .stream()
-                .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
-                .collect(Collectors.joining(" | ")));
+//            System.out.println(newWolf
+//                .getLines()
+//                .stream()
+//                .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
+//                .collect(Collectors.joining(" | ")));
 
             newGeneration.add(newWolf);
         }
 
-        System.out.println("---------------------");
         newGeneration.stream().forEach(newWolf->{
-            System.out.println(newWolf
-                    .getLines()
-                    .stream()
-                    .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
-                    .collect(Collectors.joining(" | ")));
+//            System.out.println(newWolf
+//                    .getLines()
+//                    .stream()
+//                    .map(line->String.format("%d %d %d %d",line.x1(),line.y1(),line.x2(),line.y2()))
+//                    .collect(Collectors.joining(" | ")));
         });
-        System.out.println("+++++++++++++++++++");
+
         return newGeneration.stream();
     }
 

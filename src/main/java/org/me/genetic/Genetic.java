@@ -49,9 +49,12 @@ public class Genetic extends JPanel{
 //        drawPastGenerations(g);
         archiveGeneration(wolfs);
 
+        System.out.println("scores: ");
         List<Wolf> winners = wolfs
                 .stream()
+                .peek(wolf-> wolf.hunt(g,sheep))
                 .sorted(Comparator.comparing(Wolf::getScore))
+                .peek(wolf->System.out.print(wolf.getScore()+" "))
                 .limit(winnersCount)
 //                .peek(wolf-> System.out.print(wolf.getScore()+ ", "))
                 .collect(Collectors.toList());
@@ -67,7 +70,8 @@ public class Genetic extends JPanel{
             groupedWinners.add(
                 new AbstractMap.SimpleEntry<>(
                     partitions.get(0).get(i),
-                    partitions.get(1).get(i)));
+                    partitions.size()>1? partitions.get(1).get(i) : partitions.get(0).get(i)
+                ));
         }
 
         //TODO this flatMap is acting funny
@@ -84,28 +88,31 @@ public class Genetic extends JPanel{
             wolf.drawLines(g);
         });
 
-        System.out.println("new generation Size: "+wolfs.size());
-//        System.out.print("Winners: ");
-//        printing winners
-//        winners
-//                .stream()
-//                .map(wolf->wolf.getColor())
-//                .forEach(color->System.out.print(String.format("%d, %d, %d | ",color.getRed(),color.getGreen(),color.getBlue())));
+//        System.out.println("new generation Size: "+wolfs.size());
+        System.out.print("Winners: ");
 
-//        try {
-//            Thread.currentThread().sleep(1000);
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//            e.printStackTrace();
-//        }
+//        printing winners
+        winners
+                .stream()
+//                .map(wolf->wolf.getColor())
+                .forEach(wolf->System.out.print(String.format("F:%d R:%d, G:%d, B:%d | ",
+                                                                        wolf.getScore(),
+                                                                        wolf.getColor().getRed(),
+                                                                        wolf.getColor().getGreen(),
+                                                                        wolf.getColor().getBlue())));
+
+        try {
+            Thread.currentThread().sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
+        }
 
     }
 
     private List<Wolf> createFirstGeneration(Graphics g) {
         return WolfGenerator
                     .generateWolfs(firstGenerationSize)
-                    .peek(wolf-> wolf.hunt(g,sheep))
-                    .sorted(Comparator.comparing(Wolf::getScore))
                     .collect(Collectors.toList());
     }
 
